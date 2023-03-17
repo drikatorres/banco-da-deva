@@ -8,6 +8,10 @@ public class Conta {
     private String numero;
     private BigDecimal saldo;
 
+    public Conta () {
+        this.saldo = BigDecimal.ZERO;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
@@ -29,12 +33,20 @@ public class Conta {
     }
 
     public boolean depositar (BigDecimal valor) {
-        this.saldo = this.saldo.add(valor);
-        return true;
+        if (valor != null && valor.compareTo(BigDecimal.ZERO) > 0) {
+            this.saldo = this.saldo.add(valor);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public boolean sacar (BigDecimal valor) {
-        this.saldo = this.saldo.subtract(valor);
-        return true;
+        if (valor != null && valor.compareTo(BigDecimal.ZERO) > 0) {
+            this.saldo = this.saldo.subtract(valor);
+            return true;
+        } else {
+            return false;
+        }
     }
 }
