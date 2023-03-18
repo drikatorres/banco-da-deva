@@ -38,10 +38,15 @@ public class Conta {
         if (valor != null && valor.compareTo(BigDecimal.ZERO) > 0) {
             this.saldo = this.saldo.add(valor);
             extrato.registrar(TipoOperacao.deposito, valor);
-            return true;
+            boolean registrouExtrato = extrato.registrar(TipoOperacao.deposito, valor);
+            if (registrouExtrato) {
+                return true;
+            }
         } else {
+            //TODO rollback
             return false;
         }
+        return false;
     }
 
     public boolean sacar (BigDecimal valor) {

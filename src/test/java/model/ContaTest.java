@@ -2,10 +2,8 @@ package model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
+import org.mockito.Mockito;
 
 import java.math.BigDecimal;
 
@@ -13,27 +11,28 @@ public class ContaTest {
 
 
     Conta conta;
-    Extrato extrato;
+    static Extrato extrato;
     @BeforeAll
     public static void init () {
         //Teste não ficam isolados, logo pode dar problema
-        //conta = new Conta ();
+        //Mock -> cria um objeto fake
+        extrato = Mockito.mock(Extrato.class);
     }
 
     //@Before -> JUnit 4
     @BeforeEach
     public void setup() {
-        extrato = new Extrato();
         conta = new Conta(extrato);
-
     }
     @Test
-    @DisplayName("Teste depósito")
+    @DisplayName("Teste depósito de valor positivo")
     public void quandoDepositarValorPostivo_entaoAumentaValorNoSaldo () {
         //GIVEN
+        BigDecimal valor = BigDecimal.valueOf(200);
+        Mockito.when(extrato.registrar(TipoOperacao.deposito, valor)).thenReturn(true);
 
         //WHEN
-        boolean depositou = conta.depositar(BigDecimal.valueOf(200));
+        boolean depositou = conta.depositar(valor);
 
         //THEN
         assertEquals(BigDecimal.valueOf(200), conta.getSaldo());
