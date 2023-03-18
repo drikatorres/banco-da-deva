@@ -12,7 +12,8 @@ import java.math.BigDecimal;
 public class ContaTest {
 
 
-    static Conta conta;
+    Conta conta;
+    Extrato extrato;
     @BeforeAll
     public static void init () {
         //Teste não ficam isolados, logo pode dar problema
@@ -22,7 +23,8 @@ public class ContaTest {
     //@Before -> JUnit 4
     @BeforeEach
     public void setup() {
-        conta = new Conta();
+        extrato = new Extrato();
+        conta = new Conta(extrato);
 
     }
     @Test

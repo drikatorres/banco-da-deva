@@ -7,9 +7,11 @@ public class Conta {
     private String agencia;
     private String numero;
     private BigDecimal saldo;
+    private Extrato extrato;
 
-    public Conta () {
+    public Conta (Extrato extrato) {
         this.saldo = BigDecimal.ZERO;
+        this.extrato = extrato;
     }
 
     public void setId(Long id) {
@@ -35,6 +37,7 @@ public class Conta {
     public boolean depositar (BigDecimal valor) {
         if (valor != null && valor.compareTo(BigDecimal.ZERO) > 0) {
             this.saldo = this.saldo.add(valor);
+            extrato.registrar(TipoOperacao.deposito, valor);
             return true;
         } else {
             return false;
@@ -44,6 +47,7 @@ public class Conta {
     public boolean sacar (BigDecimal valor) {
         if (valor != null && valor.compareTo(BigDecimal.ZERO) > 0) {
             this.saldo = this.saldo.subtract(valor);
+            extrato.registrar(TipoOperacao.saque, valor);
             return true;
         } else {
             return false;
